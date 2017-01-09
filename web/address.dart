@@ -1,9 +1,5 @@
-@JS('address')
-library address;
-
 import 'dart:html';
 import 'package:dartson/dartson.dart';
-import "package:js/js.dart";
 
 var statesList = const [
 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
@@ -43,7 +39,6 @@ class Address{
 	}
 }
 
-@JS("AddressEditor")
 class AddressEditor {
 	Address addressObj;
 	DivElement anchorElement;
@@ -74,7 +69,7 @@ class AddressEditor {
 		if(newAddress.length == 0){ // If input empty, erase suggestions
 			addressSuggestions.setInnerHtml("");
 		}else if(newAddress.length % 3 == 0 && newAddress.length != 0){ // Every three characters
-			var requesturl = 'http://localhost:9090/v1/address/address_street?address_street=' + newAddress;
+			var requesturl = 'http://maps.sezzle.com/v1/address/address_street?address_street=' + newAddress;
 
 			void onDataLoaded(HttpRequest req)  {
 				if (req.status >= 200 && req.status < 400) {
@@ -105,7 +100,7 @@ class AddressEditor {
 	void _suggestionClicked(e) {
 		addressSuggestions.setInnerHtml("");
 
-		var zipurl = 'http://localhost:9090/v1/address/postal_code?place_id=' + e.target.className;
+		var zipurl = 'http://maps.sezzle.com/v1/address/postal_code?place_id=' + e.target.className;
 
 		void onDataLoaded(HttpRequest req)  {
 			if (req.status >= 200 && req.status < 400) {
