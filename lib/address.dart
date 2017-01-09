@@ -43,6 +43,7 @@ class Address{
 	}
 }
 
+@JS("AddressEditor")
 class AddressEditor {
 	Address addressObj;
 	DivElement anchorElement;
@@ -53,7 +54,6 @@ class AddressEditor {
   SelectElement addressStateSelect;
   InputElement addressPostalCodeInput;
 
-	@JS("AddressEditor")
 	AddressEditor(Address initialAddress) {
 		this.addressObj = initialAddress;
 	}
