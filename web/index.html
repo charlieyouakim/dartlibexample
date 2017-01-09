@@ -21,7 +21,6 @@
 
   <div id="anchor"></div>
 	<script type="application/javascript">
-
 		var getEvent = new CustomEvent("fromJS", {
 			detail: {
 				command: "getAddressUpdate"
@@ -34,7 +33,17 @@
 		}, 3000)
 
  		document.addEventListener("fromDart", function(event){
-        console.log(event.detail);
+        switch (event.detail.type) {
+					case "init":
+						var initEvent = new CustomEvent("fromJS", {
+							detail: {
+								command: "initAddressEditor"
+							}
+						})
+						document.dispatchEvent(initEvent);
+					case "getAddressUpdateResponse":
+						console.log("Address = " + event.detail.data)
+				}
     })
 	</script>
 </body>

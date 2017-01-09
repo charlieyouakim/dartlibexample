@@ -8,14 +8,20 @@ void main() {
 	Address myAddress;
 	AddressEditor myAddressEditor;
 
-  myAddress = new Address(street : "10");
-  myAddressEditor = new AddressEditor(myAddress);
-  myAddressEditor.initHandlers();
-  print("got message");
+  void initAddress() {
+    myAddress = new Address(street : "10");
+    myAddressEditor = new AddressEditor(myAddress);
+    myAddressEditor.initHandlers();
+    print("got message");
+  }
 
   void getAddressUpdate() {
     String addressJSON = myAddressEditor.getAddressJSON();
-    var c = new CustomEvent("fromDart", detail: JSON.encode(addressJSON));
+    var response = {
+      "type": "getAddressUpdateResponse",
+      "data": JSON.encode(addressJSON)
+    };
+    var c = new CustomEvent("fromDart", detail: response);
     document.dispatchEvent(c);
   }
 
@@ -23,11 +29,20 @@ void main() {
     var detail = event.detail;
     print(detail["command"]);
     switch (detail["command"]) {
+      case 'initAddressEditor':
+        initAddress();
+        break;
       case 'getAddressUpdate':
         print('gettingAddressS');
         getAddressUpdate();
         break;
     }
 	});
+
+  //Tell JS we are loaded
+  var c = new CustomEvent("fromDart", detail: {
+      "type": "init"
+  });
+  document.dispatchEvent(c);
 
 }
