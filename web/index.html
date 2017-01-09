@@ -20,6 +20,22 @@
 <body>
 
   <div id="anchor"></div>
+	<script type="application/javascript">
 
+		var getEvent = new CustomEvent("fromJS", {
+			detail: {
+				command: "getAddressUpdate"
+			}
+		})
+
+		setInterval(function() {
+			document.dispatchEvent(getEvent)
+			console.log("js sent request")
+		}, 3000)
+
+ 		document.addEventListener("fromDart", function(event){
+        console.log(event.detail);
+    })
+	</script>
 </body>
 </html>

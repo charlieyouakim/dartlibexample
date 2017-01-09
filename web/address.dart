@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'package:dartson/dartson.dart';
+import 'dart:convert';
 
 var statesList = const [
 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
@@ -64,6 +65,11 @@ class AddressEditor {
 		addressPostalCodeInput.addEventListener('keyup', (event) => _populateObject());
 	}
 
+	dynamic getAddressJSON() {
+    var jsonAddressObj = JSON.decode(dson.encode(addressObj));
+    return jsonAddressObj;
+	}
+
 	void _getAddressSuggestions() {
 		String newAddress = addressStreetInput.value;
 		if(newAddress.length == 0){ // If input empty, erase suggestions
@@ -95,7 +101,6 @@ class AddressEditor {
 
 		}
 	}
-
 
 	void _suggestionClicked(e) {
 		addressSuggestions.setInnerHtml("");

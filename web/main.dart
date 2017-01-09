@@ -1,10 +1,33 @@
 // Copyright (c) 2017, Charlie Youakim. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
-
+import 'dart:html';
 import 'address.dart';
+import 'dart:convert';
 
 void main() {
-	Address myAddress = new Address(street : "10");
-	AddressEditor myAddressEditor = new AddressEditor(myAddress);
-	myAddressEditor.initHandlers();
+	Address myAddress;
+	AddressEditor myAddressEditor;
+
+  myAddress = new Address(street : "10");
+  myAddressEditor = new AddressEditor(myAddress);
+  myAddressEditor.initHandlers();
+  print("got message");
+
+  void getAddressUpdate() {
+    String addressJSON = myAddressEditor.getAddressJSON();
+    var c = new CustomEvent("fromDart", detail: JSON.encode(addressJSON));
+    document.dispatchEvent(c);
+  }
+
+	document.on["fromJS"].listen((CustomEvent event) {
+    var detail = event.detail;
+    print(detail["command"]);
+    switch (detail["command"]) {
+      case 'getAddressUpdate':
+        print('gettingAddressS');
+        getAddressUpdate();
+        break;
+    }
+	});
+
 }
